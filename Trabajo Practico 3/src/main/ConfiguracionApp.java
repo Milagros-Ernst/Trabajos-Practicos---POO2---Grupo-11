@@ -1,3 +1,4 @@
+package main;
 /**
  * Clase que guarda la configuración general de la aplicación.
  * Aplica el patrón Singleton para asegurar una sola instancia.

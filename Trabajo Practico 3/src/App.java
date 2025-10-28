@@ -1,4 +1,3 @@
-package main;
 /**
  * Clase principal que prueba el funcionamiento del patrón Singleton.
  */

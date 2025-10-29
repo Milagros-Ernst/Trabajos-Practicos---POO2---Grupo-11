@@ -3,10 +3,9 @@ package com.org.reportes;
 import java.time.LocalDate;
 
 public class Reporte {
-    // Obligatorios
+    // Atributos
     private final String titulo;
     private final String cuerpoPrincipal;
-    // Opcionales
     private final String encabezado;
     private final String pieDePagina;
     private final LocalDate fecha;
@@ -23,7 +22,7 @@ public class Reporte {
         this.orientacion = b.orientacion;
     }
 
-    // ==== Builder ====
+    // Builder 
     public static class Builder {
         private final String titulo;
         private final String cuerpoPrincipal;
@@ -52,7 +51,7 @@ public class Reporte {
         public Reporte build(){ return new Reporte(this); }
     }
 
-    // ==== Getters (los que usamos en render) ====
+    // Getters
     public String getTitulo() { return titulo; }
     public String getCuerpoPrincipal() { return cuerpoPrincipal; }
     public String getEncabezado() { return encabezado; }

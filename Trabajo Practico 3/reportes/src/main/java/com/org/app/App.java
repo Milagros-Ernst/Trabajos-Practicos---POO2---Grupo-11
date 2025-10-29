@@ -22,7 +22,7 @@ public class App {
 
             // mostramos los datos de la configuración Singleton
             System.out.println("URL BD: " + config.getUrlBd());
-            System.out.println("USER BD: " + config.getUserBd());
+            System.out.println("Usuario: " + config.getUserBd());
             System.out.println("Ruta de salida: " + destino.toAbsolutePath());
 
             // construcción del Reporte (Builder)
@@ -36,8 +36,6 @@ public class App {
                 .pieDePagina("Documento interno - No distribuir")
                 .orientacion(Orientacion.HORIZONTAL)
                 .build();
-            
-            System.out.println("Reporte construido con éxito.");
 
             // Renderizado (Factory Method)
             // el cliente pide el objeto Renderizador por formato pdf, excel y csv    
@@ -49,8 +47,6 @@ public class App {
             rPdf.render(reporte, destino);
             rXlsx.render(reporte, destino);
             rCsv.render(reporte, destino);
-
-            System.out.println("Listo. Archivos simulados en: " + destino.toAbsolutePath());
 
         } catch (Exception e) {
             System.err.println("ERROR FATAL en la aplicación:");

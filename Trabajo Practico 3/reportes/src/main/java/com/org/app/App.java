@@ -3,6 +3,7 @@ package com.org.app;
 import com.org.singleton.GestorConfiguracion;
 import com.org.factory.*;
 import com.org.reportes.*;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
@@ -10,40 +11,49 @@ import java.time.LocalDate;
 public class App {
     public static void main(String[] args) {
         try {
-            // 1) Cargar configuración (una vez)
-            GestorConfiguracion.INSTANCE.cargarDesdeClasspath("app.properties");
+            // accedemos a la configuración (singleton)
+            GestorConfiguracion config = GestorConfiguracion.INSTANCE;
 
-            // 2) Usar la config para determinar ruta de salida
-            Path destino = Path.of(GestorConfiguracion.INSTANCE.getPathReportes());
-            Files.createDirectories(destino);
+            // usamos la configuración
+            Path destino = Path.of(config.getPathReportes());
+            
+            // creamos el directorio si no existe (usa la ruta configurada)
+            Files.createDirectories(destino); 
 
-            // (Opcional) Mostrar datos BD para verificar que cargó
-            System.out.println("URL BD: "  + GestorConfiguracion.INSTANCE.getUrlBd());
-            System.out.println("USER BD: " + GestorConfiguracion.INSTANCE.getUserBd());
+            // mostramos los datos de la configuración Singleton
+            System.out.println("URL BD: " + config.getUrlBd());
+            System.out.println("USER BD: " + config.getUserBd());
+            System.out.println("Ruta de salida: " + destino.toAbsolutePath());
 
-            // 3) Builder del reporte (igual que escenario 2)
+            // construcción del Reporte (Builder)
+            // Se usa el método encadenado
             Reporte reporte = new Reporte.Builder(
-                    "Ventas Q3",
-                    "Este es el cuerpo principal del reporte de Ventas del Q3.")
+                    "Ventas T-4",
+                    "Este es el cuerpo principal del reporte de Ventas del Trimestre 4.")
                 .autor("Equipo Finanzas")
                 .fecha(LocalDate.now())
-                .encabezado("Confidencial")
+                .encabezado("Confidencial - Acceso Restringido")
                 .pieDePagina("Documento interno - No distribuir")
                 .orientacion(Orientacion.HORIZONTAL)
                 .build();
+            
+            System.out.println("Reporte construido con éxito.");
 
-            // 4) Render mediante Factory
-            Renderizador rPdf   = RenderizadorFactory.crearRenderizador(Formato.PDF);
-            Renderizador rXlsx  = RenderizadorFactory.crearRenderizador(Formato.EXCEL);
-            Renderizador rCsv   = RenderizadorFactory.crearRenderizador(Formato.CSV);
+            // Renderizado (Factory Method)
+            // el cliente pide el objeto Renderizador por formato pdf, excel y csv    
+            Renderizador rPdf  = RenderizadorFactory.crearRenderizador(Formato.PDF);
+            Renderizador rXlsx = RenderizadorFactory.crearRenderizador(Formato.EXCEL);
+            Renderizador rCsv  = RenderizadorFactory.crearRenderizador(Formato.CSV);
 
+            // simulación de renderizado
             rPdf.render(reporte, destino);
             rXlsx.render(reporte, destino);
             rCsv.render(reporte, destino);
 
-            System.out.println("Listo. Archivos en: " + destino.toAbsolutePath());
+            System.out.println("Listo. Archivos simulados en: " + destino.toAbsolutePath());
 
         } catch (Exception e) {
+            System.err.println("ERROR FATAL en la aplicación:");
             e.printStackTrace();
         }
     }

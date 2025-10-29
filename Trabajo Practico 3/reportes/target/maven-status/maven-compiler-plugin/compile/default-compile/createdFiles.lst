@@ -1,3 +1,4 @@
+com\org\singleton\GestorConfiguracion.class
 com\org\reportes\Orientacion.class
 com\org\factory\RenderizadorPDF.class
 com\org\factory\RenderizadorFactory$1.class
@@ -7,6 +8,5 @@ com\org\factory\Formato.class
 com\org\reportes\Reporte$Builder.class
 com\org\app\App.class
 com\org\factory\RenderizadorCSV.class
-com\org\config\GestorConfiguracion.class
 com\org\factory\Renderizador.class
 com\org\factory\RenderizadorFactory.class

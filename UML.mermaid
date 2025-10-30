@@ -1,0 +1,103 @@
+/Diagrama UML en Mermaid/
+
+classDiagram
+%% ==========================================
+%% REQUERIMIENTO 1 - Motor de Renderizado (Factory Method)
+%% ==========================================
+class Renderizador {
+    <<interface>>
+    +render(Reporte reporte) void
+}
+
+class RenderizadorPDF {
+    +render(Reporte reporte) void
+}
+
+class RenderizadorExcel {
+    +render(Reporte reporte) void
+}
+
+class RenderizadorCSV {
+    +render(Reporte reporte) void
+}
+
+class FabricaRenderizador {
+    <<abstract>>
+    +crearRenderizador(String tipo) Renderizador
+}
+
+class FabricaRenderizadorConcreta {
+    +crearRenderizador(String tipo) Renderizador
+}
+
+Renderizador <|.. RenderizadorPDF
+Renderizador <|.. RenderizadorExcel
+Renderizador <|.. RenderizadorCSV
+FabricaRenderizador <|-- FabricaRenderizadorConcreta
+FabricaRenderizadorConcreta --> Renderizador : crea
+
+%% ==========================================
+%% REQUERIMIENTO 2 - Construcción del Reporte (Builder)
+%% ==========================================
+class Reporte {
+    -String titulo
+    -String cuerpoPrincipal
+    -String encabezado
+    -String pieDePagina
+    -LocalDate fecha
+    -String autor
+    -Orientacion orientacion
+    +String getTitulo()
+    +String getCuerpoPrincipal()
+    +String getEncabezado()
+    +String getPieDePagina()
+    +LocalDate getFecha()
+    +String getAutor()
+    +Orientacion getOrientacion()
+}
+
+class ReporteBuilder {
+    -String titulo
+    -String cuerpoPrincipal
+    -String encabezado
+    -String pieDePagina
+    -LocalDate fecha
+    -String autor
+    -Orientacion orientacion
+    +ReporteBuilder(String titulo, String cuerpoPrincipal)
+    +conEncabezado(String encabezado) ReporteBuilder
+    +conPieDePagina(String pie)
+    +conFecha(LocalDate fecha)
+    +conAutor(String autor)
+    +conOrientacion(Orientacion o)
+    +build() Reporte
+}
+
+ReporteBuilder --> Reporte : construye
+
+class Orientacion {
+    <<enumeration>>
+    VERTICAL
+    HORIZONTAL
+}
+
+%% ==========================================
+%% REQUERIMIENTO 3 - Gestor de Configuración Global (Singleton)
+%% ==========================================
+class GestorConfiguracion {
+    -static GestorConfiguracion instancia
+    -String urlBd
+    -String userBd
+    -String pathReportes
+    -GestorConfiguracion()
+    +static GestorConfiguracion getInstancia()
+    +String getUrlBd()
+    +String getUserBd()
+    +String getPathReportes()
+}
+
+%% ==========================================
+%% RELACIONES GENERALES
+%% ==========================================
+GestorConfiguracion --> Reporte : usa configuración
+Reporte --> Renderizador : se renderiza con

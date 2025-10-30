@@ -1,28 +1,47 @@
-## Trabajo Pratico 3
+# Trabajo Práctico 3 - Documento de Justificación
 
-### Requerimiento 3 – Gestor de Configuración Global  
+## **Requerimiento 1 – Motor de Renderizado**
 
----
+### ¿Qué patrón de diseño creacional eligieron?
+Para el motor de renderizado se eligió el patrón `Factory Method`.
 
-### 1. ¿Qué patrón de diseño creacional elegiste?  
+### ¿Por qué este patrón es la solución adecuada para este problema? 
+El patrón `Factory Method` resulta adecuado porque desacopla el código cliente del proceso de creación de los objetos, haciendo que el sistema sea más flexible y extensible.  
+Gracias a este patrón, si en el futuro se requiere incorporar un nuevo tipo de renderizador, se puede agregar una nueva clase que implemente la interfaz `Renderizador` y registrarla en la fábrica sin alterar el resto del código. 
 
-Se eligió el patrón Singleton
+### ¿Qué problema(s) evita (ej. acoplamiento, violación del principio Abierto/Cerrado)?
+El uso de este patrón evita el **acoplamiento** directo entre el cliente y las clases concretas de renderizado, ya que el cliente solo interactúa con la interfaz común.  
+Además, previene la violación del **Principio Abierto/Cerrado (OCP)**, permitiendo extender el comportamiento del sistema sin modificar código existente.
 
----
 
-### 2. ¿Por qué este patrón es la solución adecuada para este requerimiento?  
-Este patrón es el más adecuado porque el requerimiento plantea la necesidad de contar con una sola fuente de configuración global que sea compartida por todos los módulos del sistema.  
+## **Requerimiento 2 – Construcción de Reportes**
 
-El Singleton garantiza que solo exista una única instancia del gestor de configuración en memoria y que todos los componentes accedan a la misma información.  
-De esta forma se evitan duplicaciones, inconsistencias y sobrecarga innecesaria de objetos.  
+### ¿Qué patrón de diseño creacional eligieron?
+Para la construcción de reportes se eligió el patrón `Builder`.
 
-En este caso, la configuración (por ejemplo, la URL de la base de datos, el usuario y la ruta de salida de reportes) es información global que no debe repetirse ni modificarse en diferentes partes del programa.  
+### ¿Por qué este patrón es la solución adecuada?
+El patrón `Builder` es adecuado porque el objeto `Reporte` posee varios atributos opcionales y obligatorios.  
+Utilizar un constructor tradicional con muchos parámetros haría el código poco legible y difícil de mantener.  
+Con este patrón, la creación del objeto se realiza paso a paso mediante métodos encadenados, mejorando la claridad lo cual permite que cada instancia de `Reporte` sea construida de manera flexible según las necesidades del usuario.
 
----
+### ¿Qué problemas específicos del "constructor" resuelve?
+El patrón `Builder` resuelve el problema del **constructor telescópico**, evitando la creación de múltiples constructores sobrecargados y la necesidad de pasar valores nulos para parámetros opcionales.
 
-### 3. ¿Cómo garantizaste la unicidad de la instancia?  
-La unicidad se garantiza mediante los siguientes elementos en la clase `GestorConfiguracion`:  
 
-- **Constructor privado:** impide que otras clases puedan crear nuevas instancias del objeto.  
-- **Atributo estático final `INSTANCE`:** se crea automáticamente cuando la clase se carga en memoria, asegurando una única instancia (instanciación ansiosa).  
-- **Método estático `getInstance()`:** devuelve siempre la misma referencia (`INSTANCE`) para acceder al objeto único.  
+## **Requerimiento 3 – Gestor de Configuración Global**
+
+### ¿Qué patrón de diseño creacional elegiste?  
+Se eligió el patrón `Singleton`.
+
+### ¿Por qué este patrón es la solución adecuada para este requerimiento?  
+Este patrón es el más adecuado porque el sistema necesita un único punto de acceso global a la configuración, asegurando que todos los módulos compartan los mismos parámetros, como la URL de la base de datos, el usuario o la ruta de salida de los reportes.  
+El `Singleton` facilita la administración centralizada de estos datos y evita inconsistencias, ya que todos los componentes acceden a la misma instancia.
+
+### ¿Cómo garantizaste la unicidad de la instancia?  
+La unicidad se garantizó mediante una instancia estática creada de forma *eager*, definida como  
+`public static final GestorConfiguracion INSTANCE`.
+
+El constructor de la clase es privado, impidiendo que se creen nuevas instancias desde fuera.  
+Además, se proporciona un método público (`getInstance()`) que devuelve siempre la misma referencia.
+
+Con este enfoque se asegura que solo exista un único objeto en memoria y que cualquier acceso a la configuración utilice la misma instancia compartida en toda la aplicación.

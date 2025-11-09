@@ -32,3 +32,23 @@ La combinación **Composite + Decorator** resuelve eficazmente la gestión jerá
 
 **Conclusión.**  
 El patrón **Facade** cumple su propósito de **ocultar la complejidad interna** detrás de una interfaz simple y coherente, logrando un sistema **desacoplado, fácil de usar y de mantener**.
+
+### Escenario 3 – Integración de API de Logística
+
+#### 1. Identificación del patrón  
+- **Adapter:** Se aplicó para **compatibilizar la interfaz interna** `IServicioEnvio` con la clase externa `ApiLogisticaVeloz` proveniente del SDK del nuevo proveedor de envíos.  
+  La clase `LogisticaVelozAdapter` actúa como un **intermediario** que traduce las llamadas internas a las operaciones del SDK:
+  - `calcularCosto(String cp)` → `cotizarEnvio(int cpDestino)`  
+  - `obtenerTiempoEstimado(String cp)` → usa los días de la `Cotizacion`  
+  - `despacharPedido(String dir, String cp, String id)` → `enviarPaquete(DatosEnvio)`  
+  Además, realiza la conversión de tipos entre `String` e `int`, y construye los objetos requeridos por la librería externa.
+
+#### 2. Justificación de la elección  
+- El patrón **Adapter** resuelve el **problema de incompatibilidad de interfaces** sin modificar el código fuente del SDK externo.  
+- Permite mantener intacta la **interfaz interna** usada por todo el sistema, evitando cambios en las capas de presentación o negocio.  
+- **Reduce el acoplamiento**, ya que el sistema no depende directamente del SDK de LogísticaVeloz.  
+- Facilita la **extensibilidad**, permitiendo integrar nuevos proveedores de envío mediante nuevos adapters sin alterar el código existente.  
+- Cumple con el principio **Open/Closed**, ya que la funcionalidad se amplía a través del adapter sin modificar clases previas.
+
+**Conclusión.**  
+El patrón **Adapter** permitió **integrar de forma transparente** la API de LogísticaVeloz con el sistema de E-Commerce, estandarizando las operaciones de envío, reduciendo el acoplamiento y garantizando una estructura flexible y mantenible.

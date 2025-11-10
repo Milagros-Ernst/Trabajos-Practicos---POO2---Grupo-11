@@ -1,5 +1,5 @@
-En este repositorio vamos a desarrollar los trabajos prácticos que corresponden a la cátedra de Programación Orientada a Objetos II
-El grupo está compuesto por:
+En este repositorio se desarrollará los trabajos prácticos que corresponden a la cátedra de Programación Orientada a Objetos II.
+Los integrantes que conforman el grupo son:
   - Daubermann, Marcos Isaías
   - Ernst, Milagros Shaiel
   - Maidana, Julio Alberto
